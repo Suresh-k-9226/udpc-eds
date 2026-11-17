@@ -142,6 +142,58 @@ function decorateButtons(main) {
   });
 }
 
+const singlePageLinkTargets = new Map([
+  ['University of Velen', 'home'],
+  ['Home', 'home'],
+  ['About Us', 'about'],
+  ['Courses', 'courses'],
+  ['Faculty', 'faculty'],
+  ['Events', 'events'],
+  ['Admissions', 'admissions'],
+  ['Explore Programs', 'courses'],
+  ['Apply Now', 'admissions'],
+]);
+
+function updateSinglePageLinks(element) {
+  element.querySelectorAll('a[href]').forEach((link) => {
+    const target = singlePageLinkTargets.get(link.textContent.trim());
+    if (target) link.setAttribute('href', `/#${target}`);
+  });
+}
+
+function assignSectionId(target, id) {
+  if (!target) return;
+  const existing = document.getElementById(id);
+  if (existing && existing !== target) {
+    if (target.contains(existing)) return;
+    // eslint-disable-next-line no-console
+    console.error(`Cannot assign section id "${id}": that id is already in use.`);
+    return;
+  }
+  if (target.id && target.id !== id) {
+    // eslint-disable-next-line no-console
+    console.error(`Cannot assign section id "${id}": target already has id "${target.id}".`);
+    return;
+  }
+  target.id = id;
+}
+
+function decorateSinglePageNavigation(main) {
+  assignSectionId(main.querySelector('.hero-wrapper'), 'home');
+  const sectionTitles = new Map([
+    ['A University That Inspires Excellence', 'about'],
+    ['Explore Our Academic Programs', 'courses'],
+    ['Meet Our Faculty', 'faculty'],
+    ['Campus Life & Events', 'events'],
+    ['Your Future Starts Here', 'admissions'],
+  ]);
+  main.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((heading) => {
+    const id = sectionTitles.get(heading.textContent.trim());
+    if (id) assignSectionId(heading.closest('.default-content-wrapper'), id);
+  });
+  updateSinglePageLinks(main);
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -153,6 +205,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateSinglePageNavigation(main);
 }
 
 /**
@@ -184,7 +237,7 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('body > header'));
+  const headerPromise = loadHeader(doc.querySelector('body > header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
@@ -193,7 +246,10 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('body > footer'));
+  const footerPromise = loadFooter(doc.querySelector('body > footer'));
+  await Promise.all([headerPromise, footerPromise]);
+  updateSinglePageLinks(doc.querySelector('header'));
+  updateSinglePageLinks(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

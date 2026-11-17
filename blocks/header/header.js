@@ -138,6 +138,10 @@ export default async function decorate(block) {
         button.setAttribute('aria-expanded', !expanded);
       });
     });
+    navSections.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href]');
+      if (link && !isDesktop.matches) toggleMenu(nav, navSections, false);
+    });
   }
 
   // hamburger for mobile

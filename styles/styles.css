@@ -12,29 +12,41 @@
 
 :root {
   /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
+  --primary-navy: #10243d;
+  --deep-navy: #10243d;
+  --academic-navy: #17365a;
+  --academic-gold: #d6ad55;
+  --gold-hover: #b9903f;
+  --warm-ivory: #f4f7fa;
+  --white: #fff;
+  --primary-text: #202b38;
+  --secondary-text: #5b6878;
+  --border-color: #e1e7ef;
+  --card-radius: 10px;
+  --control-radius: 5px;
+  --background-color: var(--white);
+  --light-color: var(--warm-ivory);
+  --dark-color: var(--deep-navy);
+  --text-color: var(--primary-text);
+  --link-color: var(--academic-navy);
+  --link-hover-color: var(--deep-navy);
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
   --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
 
   /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  --body-font-size-m: 17px;
+  --body-font-size-s: 15px;
+  --body-font-size-xs: 13px;
 
   /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
+  --heading-font-size-xxl: 40px;
+  --heading-font-size-xl: 34px;
+  --heading-font-size-l: 27px;
+  --heading-font-size-m: 22px;
+  --heading-font-size-s: 19px;
+  --heading-font-size-xs: 17px;
 
   /* nav height */
   --nav-height: 64px;
@@ -56,15 +68,15 @@
 @media (width >= 900px) {
   :root {
     /* body sizes */
-    --body-font-size-m: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
+    --body-font-size-m: 16px;
+    --body-font-size-s: 14px;
+    --body-font-size-xs: 13px;
 
     /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
+    --heading-font-size-xxl: 48px;
+    --heading-font-size-xl: 38px;
+    --heading-font-size-l: 30px;
+    --heading-font-size-m: 24px;
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
   }
@@ -77,11 +89,16 @@ body {
   color: var(--text-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 body.appear {
   display: block;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 16px);
 }
 
 header {
@@ -105,10 +122,10 @@ h4,
 h5,
 h6 {
   margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.4em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.16;
   scroll-margin: 40px;
 }
 
@@ -143,7 +160,7 @@ pre {
 }
 
 main > div {
-  margin: 40px 16px;
+  margin: 48px 16px;
 }
 
 input,
@@ -158,6 +175,7 @@ a:any-link {
   color: var(--link-color);
   text-decoration: none;
   overflow-wrap: break-word;
+  transition: color 160ms ease;
 }
 
 a:hover {
@@ -165,9 +183,16 @@ a:hover {
   text-decoration: underline;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--academic-gold);
+  outline-offset: 3px;
+}
+
 /* buttons */
-p.button-wrapper {
-  margin: 12px 0;
+p.button-wrapper,
+p.button-container {
+  margin: 16px 0;
 }
 
 a.button:any-link,
@@ -179,16 +204,17 @@ button.button {
   max-width: 100%;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
+  border-radius: var(--control-radius);
+  padding: 0.7em 1.4em;
   font: inherit;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.25;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 a.button[aria-disabled="true"],
@@ -199,8 +225,8 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
+  border-color: var(--primary-navy);
+  background-color: var(--primary-navy);
   color: var(--background-color);
 }
 
@@ -208,9 +234,10 @@ a.button.primary:hover,
 a.button.primary:focus-visible,
 button.button.primary:hover,
 button.button.primary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  border-color: var(--deep-navy);
+  background-color: var(--deep-navy);
+  color: var(--white);
+  transform: translateY(-1px);
 }
 
 a.button.primary[aria-disabled="true"],
@@ -221,23 +248,24 @@ button.button.primary:disabled:hover,
 button.button.primary:disabled:focus-visible {
   background-color: var(--light-color);
   border-color: var(--light-color);
-  color: var(--dark-color);
+  color: var(--secondary-text);
 }
 
 a.button.secondary,
 button.button.secondary {
-  border-color: var(--text-color);
+  border-color: var(--primary-navy);
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--primary-navy);
 }
 
 a.button.secondary:hover,
 a.button.secondary:focus-visible,
 button.button.secondary:hover,
 button.button.secondary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--light-color);
-  color: var(--dark-color);
+  border-color: var(--primary-navy);
+  background-color: var(--warm-ivory);
+  color: var(--deep-navy);
+  transform: translateY(-1px);
 }
 
 a.button.secondary[aria-disabled="true"],
@@ -248,23 +276,25 @@ button.button.secondary:disabled:hover,
 button.button.secondary:disabled:focus-visible {
   background-color: var(--light-color);
   border-color: var(--light-color);
-  color: var(--dark-color);
+  color: var(--secondary-text);
 }
 
 /* high-impact call-to-action */
 a.button.accent,
 button.button.accent {
-  border-color: var(--link-color);
-  background-color: var(--link-color);
-  color: var(--background-color);
+  border-color: var(--academic-gold);
+  background-color: var(--academic-gold);
+  color: var(--deep-navy);
 }
 
 a.button.accent:hover,
 a.button.accent:focus-visible,
 button.button.accent:hover,
 button.button.accent:focus-visible {
-  border-color: var(--link-hover-color);
-  background-color: var(--link-hover-color);
+  border-color: #b28c38;
+  background-color: #b28c38;
+  color: var(--deep-navy);
+  transform: translateY(-1px);
 }
 
 a.button.accent[aria-disabled="true"],
@@ -275,10 +305,11 @@ button.button.accent:disabled:hover,
 button.button.accent:disabled:focus-visible {
   background-color: var(--light-color);
   border-color: var(--light-color);
-  color: var(--dark-color);
+  color: var(--secondary-text);
 }
 
 main img {
+  display: block;
   max-width: 100%;
   width: auto;
   height: auto;
@@ -297,11 +328,12 @@ main img {
 
 /* sections */
 main > .section {
-  margin: 40px 0;
+  margin: 56px 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  box-sizing: border-box;
+  max-width: 1280px;
   margin: auto;
   padding: 0 24px;
 }
@@ -310,16 +342,171 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
+/* section metadata */
+main .section.light,
+main .section.highlight {
+  margin: 0;
+  padding: 56px 0;
+}
+
+main .section.light {
+  background-color: var(--warm-ivory);
+}
+
+main .section.highlight {
+  background-color: var(--primary-navy);
+  color: var(--white);
+}
+
+main .section.highlight h1,
+main .section.highlight h2,
+main .section.highlight h3,
+main .section.highlight h4,
+main .section.highlight h5,
+main .section.highlight h6 {
+  color: var(--white);
+}
+
+main .section.highlight a:any-link {
+  color: var(--academic-gold);
+}
+
+main .section.highlight a.button.primary:any-link,
+main .section.highlight a.button.accent:any-link {
+  border-color: var(--academic-gold);
+  background-color: var(--academic-gold);
+  color: var(--deep-navy);
+}
+
+main .section.highlight a.button.secondary:any-link {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+main .section.highlight a.button.primary:hover,
+main .section.highlight a.button.primary:focus-visible,
+main .section.highlight a.button.accent:hover,
+main .section.highlight a.button.accent:focus-visible {
+  border-color: var(--gold-hover);
+  background-color: var(--gold-hover);
+}
+
+main .section.highlight a.button.secondary:hover,
+main .section.highlight a.button.secondary:focus-visible {
+  background-color: var(--white);
+  color: var(--deep-navy);
+}
+
+main > .section.hero-container.cards-container {
+  margin-bottom: 0;
+  padding-bottom: 1px;
+}
+
+main > .section.hero-container > .default-content-wrapper {
+  padding-top: 28px;
+  padding-bottom: 12px;
+}
+
+main > .section.hero-container > .default-content-wrapper p {
+  max-width: 76ch;
+}
+
+main > .section.hero-container > .cards-wrapper {
+  margin-top: 0;
+  margin-bottom: 32px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  background-color: var(--warm-ivory);
+}
+
+main > .section.hero-container > .default-content-wrapper:last-child {
+  box-sizing: border-box;
+  max-width: 1216px;
+  margin: 48px auto 64px;
+  border-radius: var(--card-radius);
+  padding: 38px 44px;
+  background-color: var(--primary-navy);
+  color: var(--white);
+}
+
+main > .section.hero-container > .default-content-wrapper:last-child h2 {
+  margin-top: 0;
+  color: var(--white);
+}
+
+main > .section.hero-container > .default-content-wrapper:last-child p {
+  color: rgb(255 255 255 / 90%);
+}
+
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/courses'],
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/admissions'] {
+  display: inline-flex;
+  min-height: 44px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 12px 0 0;
+  border: 1px solid var(--academic-gold);
+  border-radius: var(--control-radius);
+  padding: 0 18px;
+  color: var(--deep-navy);
+  background-color: var(--academic-gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/courses']:hover,
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/courses']:focus-visible,
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/admissions']:hover,
+main > .section.hero-container > .default-content-wrapper:last-child a[href='/admissions']:focus-visible {
+  border-color: var(--gold-hover);
+  background-color: var(--gold-hover);
+  color: var(--deep-navy);
+}
+
 @media (width >= 900px) {
   main > .section > div {
     padding: 0 32px;
   }
+
+  main > .section {
+    margin: 72px 0;
+  }
+
+  main .section.light,
+  main .section.highlight {
+    padding: 72px 0;
+  }
 }
 
-/* section metadata */
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+@media (width <= 600px) {
+  main > .section > div {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  main > .section.hero-container > .default-content-wrapper {
+    padding-top: 20px;
+    padding-bottom: 8px;
+  }
+
+  main > .section.hero-container > .cards-wrapper {
+    margin-bottom: 22px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  main > .section.hero-container > .default-content-wrapper:last-child {
+    margin: 32px 20px 40px;
+    padding: 28px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
